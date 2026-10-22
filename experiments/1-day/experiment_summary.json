@@ -1,0 +1,606 @@
+{
+  "duration": "1-day",
+  "experiment_dir": "/Users/kishores/Documents/Introduction to data analytics/experiments/1-day",
+  "config_path": "/Users/kishores/Documents/Introduction to data analytics/experiments/1-day/experiment_config.yaml",
+  "sample_rows": 200000,
+  "coverage": {
+    "2024-01-01": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7293408,
+      "timestamp_min_utc": "2024-01-01T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-01T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-01"
+      ],
+      "requested_date": "2024-01-01"
+    }
+  },
+  "quality": {
+    "input_rows": 7293408,
+    "sampled_rows": 200000,
+    "retained_rows": 200000,
+    "excluded_unusable_rows": 0,
+    "duplicate_rows_flagged": 0,
+    "daily_quality": {
+      "2024-01-01": {
+        "source_rows": 7293408,
+        "sampled_rows": 200000,
+        "quality": {
+          "input_rows": 200000,
+          "retained_rows": 200000,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 472,
+            "cog": 33377,
+            "heading": 105038,
+            "vessel_type": 1027,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 472,
+            "cog": 33377,
+            "heading": 105038,
+            "vessel_type": 1027,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7293408,
+          "sampled_rows": 200000,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7293408,
+          "timestamp_min_utc": "2024-01-01T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-01T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-01"
+          ],
+          "requested_date": "2024-01-01"
+        }
+      }
+    }
+  },
+  "status": "completed",
+  "stages": [
+    {
+      "stage": "03_run_eda.py",
+      "status": "completed",
+      "result": {
+        "figure_count": 20,
+        "not_generated": {}
+      }
+    },
+    {
+      "stage": "04_run_descriptive_analytics.py",
+      "status": "completed",
+      "result": {
+        "observations": 200000,
+        "vessels": 13270,
+        "time_start_utc": "2024-01-01T00:00:00+00:00",
+        "time_end_utc": "2024-01-01T23:59:59+00:00",
+        "missing_by_column": {
+          "vessel_id": 0,
+          "timestamp": 0,
+          "sog": 472,
+          "cog": 33377,
+          "heading": 105038,
+          "vessel_type": 1027,
+          "longitude": 0,
+          "latitude": 0,
+          "audit_invalid_timestamp": 0,
+          "audit_invalid_coordinate": 0,
+          "audit_duplicate": 0,
+          "audit_suspicious_speed": 0,
+          "audit_missing_vessel_id": 0,
+          "elapsed_hours": 13270,
+          "distance_km": 17002,
+          "derived_speed_knots": 17002,
+          "speed_change": 13757,
+          "acceleration_knots_per_hour": 13757,
+          "course_change_deg": 45088,
+          "turn_rate_deg_per_hour": 45088,
+          "hour_utc": 0,
+          "day_of_week_utc": 0
+        },
+        "numeric_describe": {
+          "sog": {
+            "count": 199528.0,
+            "mean": 1.7946052697454802,
+            "std": 3.9804537770940627,
+            "min": 0.0,
+            "25%": 0.0,
+            "50%": 0.0,
+            "75%": 0.30000001192092896,
+            "max": 52.599998474121094
+          },
+          "cog": {
+            "count": 166623.0,
+            "mean": 190.12850023909203,
+            "std": 105.01801831453994,
+            "min": 0.0,
+            "25%": 101.4000015258789,
+            "50%": 207.60000610351562,
+            "75%": 275.6000061035156,
+            "max": 359.8999938964844
+          },
+          "heading": {
+            "count": 94962.0,
+            "mean": 186.8484657020703,
+            "std": 106.33875070723302,
+            "min": 0.0,
+            "25%": 93.0,
+            "50%": 192.0,
+            "75%": 278.0,
+            "max": 359.0
+          },
+          "distance_km": {
+            "count": 182998.0,
+            "mean": 2.1053934105700223,
+            "std": 12.352431061833943,
+            "min": 0.0,
+            "25%": 0.0018966341208431566,
+            "50%": 0.0040352337949458045,
+            "75%": 0.36728948468247086,
+            "max": 1518.3342336368291
+          },
+          "elapsed_hours": {
+            "count": 186730.0,
+            "mean": 1.1855687891608204,
+            "std": 1.5590161053469513,
+            "min": 0.0002777777777777778,
+            "25%": 0.2725,
+            "50%": 0.6725,
+            "75%": 1.4608333333333334,
+            "max": 22.506944444444443
+          }
+        },
+        "vessel_type_counts": {
+          "31": 39633,
+          "37": 38111,
+          "52": 33187,
+          "30": 14815,
+          "36": 12850,
+          "70": 12572,
+          "60": 12325,
+          "80": 5865,
+          "57": 3491,
+          "90": 3342,
+          "33": 2413,
+          "79": 2078,
+          "51": 1849,
+          "50": 1803,
+          "32": 1736,
+          "71": 1547,
+          "69": 1532,
+          "99": 1412,
+          "89": 1273,
+          "55": 1068,
+          "<missing>": 1027,
+          "40": 825,
+          "35": 620,
+          "82": 333,
+          "53": 322,
+          "54": 296,
+          "39": 276,
+          "74": 257,
+          "65": 241,
+          "34": 233
+        },
+        "tables": [
+          "reports/tables/daily_traffic_pattern.csv",
+          "reports/tables/data_completeness.csv",
+          "reports/tables/diagnostic_tests.csv",
+          "reports/tables/feature_multicollinearity.csv",
+          "reports/tables/hourly_traffic_pattern.csv",
+          "reports/tables/numeric_summary.csv",
+          "reports/tables/observation_counts_over_time.csv",
+          "reports/tables/simulation_timeline.csv",
+          "reports/tables/speed_by_vessel_type.csv",
+          "reports/tables/vessel_movement_summaries.csv",
+          "reports/tables/vessel_type_counts.csv"
+        ]
+      }
+    },
+    {
+      "stage": "05_run_diagnostic_analytics.py",
+      "status": "computed",
+      "result": {
+        "status": "computed",
+        "test": "Kruskal-Wallis on per-vessel median speed",
+        "groups": 40,
+        "vessel_sample_sizes": [
+          11,
+          992,
+          1494,
+          66,
+          116,
+          15,
+          45,
+          1577,
+          4235,
+          12,
+          18,
+          48,
+          82,
+          145,
+          1303,
+          25,
+          28,
+          88,
+          8,
+          124,
+          7,
+          716,
+          12,
+          11,
+          92,
+          789,
+          91,
+          8,
+          6,
+          14,
+          122,
+          397,
+          16,
+          23,
+          19,
+          73,
+          201,
+          7,
+          5,
+          75
+        ],
+        "statistic": 896.50048828125,
+        "p_value": 0.0,
+        "interpretation": "An association between vessel-type groups and median speed; not a causal result.",
+        "assumptions": [
+          "Independent vessel-level medians are the analysis units.",
+          "Kruskal-Wallis compares distributions without a normality assumption.",
+          "Each eligible group must contain at least five vessels."
+        ],
+        "effect_size": {
+          "name": "Kruskal-Wallis epsilon-squared",
+          "value": 0.06557819580003442,
+          "interpretation": "rank-based association magnitude, not causation"
+        },
+        "confidence_interval": {
+          "name": "95% percentile bootstrap interval for epsilon-squared",
+          "lower": 0.06006198555149044,
+          "upper": 0.07907212129898046,
+          "resamples": 300,
+          "seed": 42
+        },
+        "p_value_numeric_limit": "< 2.23e-308",
+        "log_p_value": -373.12027723055695,
+        "epsilon_squared": 0.06557819580003442,
+        "group_medians_knots": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.10000000149011612,
+          0.0,
+          0.0,
+          0.0,
+          0.10000000149011612,
+          0.0,
+          0.0,
+          0.05000000074505806,
+          8.5,
+          0.10000000149011612,
+          4.0,
+          13.450000762939453,
+          0.10000000149011612,
+          0.20000000298023224,
+          0.02500000037252903,
+          1.2999999523162842,
+          11.799999237060547,
+          1.5,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "group_sizes": [
+          11,
+          992,
+          1494,
+          66,
+          116,
+          15,
+          45,
+          1577,
+          4235,
+          12,
+          18,
+          48,
+          82,
+          145,
+          1303,
+          25,
+          28,
+          88,
+          8,
+          124,
+          7,
+          716,
+          12,
+          11,
+          92,
+          789,
+          91,
+          8,
+          6,
+          14,
+          122,
+          397,
+          16,
+          23,
+          19,
+          73,
+          201,
+          7,
+          5,
+          75
+        ]
+      }
+    },
+    {
+      "stage": "06_engineer_features.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "rows": 200000,
+        "features": [
+          "elapsed_hours",
+          "distance_km",
+          "derived_speed_knots",
+          "speed_change",
+          "acceleration_knots_per_hour",
+          "course_change_deg",
+          "turn_rate_deg_per_hour",
+          "hour_utc",
+          "day_of_week_utc"
+        ],
+        "missing_by_feature": {
+          "elapsed_hours": 13270,
+          "distance_km": 17002,
+          "derived_speed_knots": 17002,
+          "speed_change": 13757,
+          "acceleration_knots_per_hour": 13757,
+          "course_change_deg": 45088,
+          "turn_rate_deg_per_hour": 45088,
+          "hour_utc": 0,
+          "day_of_week_utc": 0
+        },
+        "multicollinearity_screen": {
+          "status": "computed",
+          "threshold": 0.95,
+          "pairs": [],
+          "interpretation": "Redundancy screen only; correlation does not establish causation."
+        }
+      }
+    },
+    {
+      "stage": "07_train_models.py",
+      "status": "completed",
+      "result": {
+        "model": "Robust-scaled Isolation Forest + novelty Local Outlier Factor",
+        "features": [
+          "sog",
+          "derived_speed_knots",
+          "distance_km",
+          "elapsed_hours",
+          "course_change_deg",
+          "turn_rate_deg_per_hour"
+        ],
+        "train_rows": 140000,
+        "validation_rows": 30000,
+        "test_rows": 30000,
+        "threshold": 88.55780521118969,
+        "test_alerts": 261,
+        "test_alert_percent": 0.8699999999999999,
+        "validation_alerts": 279,
+        "training_seconds": 22.978289999999106,
+        "inference_seconds": 2.3230170419992646,
+        "seed": 42,
+        "model_configuration": {
+          "contamination": 0.01,
+          "alert_quantile": 0.99,
+          "isolation_forest_estimators": 200,
+          "lof_neighbors": 374,
+          "features": [
+            "sog",
+            "derived_speed_knots",
+            "distance_km",
+            "elapsed_hours",
+            "course_change_deg",
+            "turn_rate_deg_per_hour"
+          ]
+        },
+        "drift_events_on_test_score": [],
+        "label_status": "No ground-truth anomaly labels; supervised accuracy metrics are not reported.",
+        "fixed_vs_adaptive": {
+          "status": "computed_shadow_update",
+          "fixed_training_rows": 140000,
+          "adaptive_training_rows": 170000,
+          "validation_used_for_shadow_update": true,
+          "fixed_test_alerts": 261,
+          "fixed_test_alert_percent": 0.8699999999999999,
+          "adaptive_test_alerts": 255,
+          "adaptive_test_alert_percent": 0.8500000000000001,
+          "fixed_training_seconds": 22.978289999999106,
+          "adaptive_training_seconds": 28.398326875001658,
+          "fixed_inference_seconds": 2.3230170419992646,
+          "adaptive_inference_seconds": 2.4499172499999986,
+          "ground_truth_status": "unavailable; alert rates are not performance metrics",
+          "interpretation": "Unsupervised shadow refit comparison only; no superiority or operational adaptation claim."
+        },
+        "status": "completed"
+      }
+    },
+    {
+      "stage": "08_detect_drift.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "method": "median shift against first 100 score observations; not concept-drift proof",
+        "scores": 30000,
+        "events": [],
+        "interpretation": "Distribution-shift screen only; no adaptive update was performed."
+      }
+    },
+    {
+      "stage": "09_run_simulation.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "is_simulated": true,
+        "scenario": "controlled_speed_change",
+        "vessel_id": "367539920",
+        "rows": 55,
+        "injection_start_index": 27,
+        "severity_multiplier": 1.8,
+        "original_alerts": 0,
+        "scenario_alerts": 0,
+        "injected_interval_detection_fraction": 0.0,
+        "warning": "Controlled synthetic intervention on a copy; not a real-world anomaly or operational detector validation."
+      }
+    },
+    {
+      "stage": "10_evaluate_models.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "real_label_metrics": "not computable: no ground-truth labels",
+        "baseline": {
+          "model": "Robust-scaled Isolation Forest + novelty Local Outlier Factor",
+          "features": [
+            "sog",
+            "derived_speed_knots",
+            "distance_km",
+            "elapsed_hours",
+            "course_change_deg",
+            "turn_rate_deg_per_hour"
+          ],
+          "train_rows": 140000,
+          "validation_rows": 30000,
+          "test_rows": 30000,
+          "threshold": 88.55780521118969,
+          "test_alerts": 261,
+          "test_alert_percent": 0.8699999999999999,
+          "validation_alerts": 279,
+          "training_seconds": 22.978289999999106,
+          "inference_seconds": 2.3230170419992646,
+          "seed": 42,
+          "model_configuration": {
+            "contamination": 0.01,
+            "alert_quantile": 0.99,
+            "isolation_forest_estimators": 200,
+            "lof_neighbors": 374,
+            "features": [
+              "sog",
+              "derived_speed_knots",
+              "distance_km",
+              "elapsed_hours",
+              "course_change_deg",
+              "turn_rate_deg_per_hour"
+            ]
+          },
+          "drift_events_on_test_score": [],
+          "label_status": "No ground-truth anomaly labels; supervised accuracy metrics are not reported.",
+          "fixed_vs_adaptive": {
+            "status": "computed_shadow_update",
+            "fixed_training_rows": 140000,
+            "adaptive_training_rows": 170000,
+            "validation_used_for_shadow_update": true,
+            "fixed_test_alerts": 261,
+            "fixed_test_alert_percent": 0.8699999999999999,
+            "adaptive_test_alerts": 255,
+            "adaptive_test_alert_percent": 0.8500000000000001,
+            "fixed_training_seconds": 22.978289999999106,
+            "adaptive_training_seconds": 28.398326875001658,
+            "fixed_inference_seconds": 2.3230170419992646,
+            "adaptive_inference_seconds": 2.4499172499999986,
+            "ground_truth_status": "unavailable; alert rates are not performance metrics",
+            "interpretation": "Unsupervised shadow refit comparison only; no superiority or operational adaptation claim."
+          }
+        },
+        "simulation": {
+          "status": "completed",
+          "is_simulated": true,
+          "scenario": "controlled_speed_change",
+          "vessel_id": "367539920",
+          "rows": 55,
+          "injection_start_index": 27,
+          "severity_multiplier": 1.8,
+          "original_alerts": 0,
+          "scenario_alerts": 0,
+          "injected_interval_detection_fraction": 0.0,
+          "warning": "Controlled synthetic intervention on a copy; not a real-world anomaly or operational detector validation."
+        },
+        "roc_pr_curves": "not generated without valid labels"
+      }
+    },
+    {
+      "stage": "11_generate_report.py",
+      "status": "completed",
+      "result": {
+        "generated_at_utc": "2026-10-17T16:08:30.125333+00:00",
+        "html_report": "reports/generated/maritime_anomaly_research_report.html",
+        "figure_index": "reports/generated/figure_index.html",
+        "figure_count": 36,
+        "pdf": {
+          "status": "not generated",
+          "reason": "No PDF library configured; HTML report is the supported output."
+        },
+        "report_scope": "real acquired one-day NOAA sample; unexecuted experiments marked incomplete"
+      }
+    }
+  ],
+  "finished_at_utc": "2026-10-17T16:08:30.125478+00:00"
+}

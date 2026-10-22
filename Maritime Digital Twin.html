@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Maritime Digital Twin</title>
+<style>
+:root{color-scheme:dark;--bg:#060f20;--p:#0b1d38;--l:#1b3a63;--t:#d6e6f7;--m:#7f9bbd;--c:#22d3ee;--o:#fb923c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font:13px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;padding:10px 14px;background:linear-gradient(90deg,#0b2a52,#061a30);border-bottom:1px solid var(--l)}
+header b{font-size:18px;letter-spacing:.14em;color:var(--c)}header small{color:var(--m)}
+.badge{margin-left:auto;background:#3b2a05;color:#fbbf24;border:1px solid #92650a;padding:2px 8px;border-radius:99px;font-size:11px}
+main{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,1fr);gap:10px;padding:10px}
+@media(max-width:900px){main{grid-template-columns:1fr}}
+#mapw{background:var(--p);border:1px solid var(--l);border-radius:10px;overflow:hidden}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1;max-height:76vh;margin:auto;cursor:grab;touch-action:none}
+#bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px;border-top:1px solid var(--l)}
+button,select,input{background:#10294d;color:var(--t);border:1px solid var(--l);border-radius:6px;padding:5px 9px;font:inherit}
+button{cursor:pointer}button:hover,button.on{background:#14508a;border-color:var(--c)}
+input[type=checkbox]{padding:0}#clock{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--c)}
+aside{background:var(--p);border:1px solid var(--l);border-radius:10px;padding:10px;max-height:92vh;overflow:auto;min-width:0}
+#tabs{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}#sel{background:#081832;border:1px solid var(--l);border-radius:8px;padding:8px;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:11.5px;font-variant-numeric:tabular-nums}th,td{padding:3px 5px;border-bottom:1px solid #16315a;text-align:left;white-space:nowrap}th{color:var(--m)}
+tr[data-i]{cursor:pointer}tr.hl,tr[data-i]:hover{background:#12407a}.row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+.bar{display:flex;align-items:center;gap:6px;margin:2px 0}.bar i{display:block;height:9px;background:var(--c);border-radius:3px}.bar span:first-child{width:110px;color:var(--m)}
+pre{background:#050d1c;border:1px solid var(--l);border-radius:6px;padding:8px;overflow:auto;font-size:11px;white-space:pre-wrap}
+.note{color:var(--m);font-size:11.5px}.warn{color:#fbbf24}.f{background:#081832;border-left:3px solid var(--c);padding:5px 8px;margin:4px 0;font-family:ui-monospace,Menlo,monospace;font-size:11.5px}
+.hm{display:grid;grid-template-columns:70px repeat(6,1fr);gap:2px;font-size:10.5px}.hm div{padding:4px;text-align:center}
+</style></head><body>
+<header><b>MARITIME DIGITAL TWIN</b><small>Interactive AIS Data Collection, Vessel Tracking &amp; Anomaly Simulation Platform</small><span class="badge">SYNTHETIC SIMULATION DATA · not NOAA · not live AIS</span></header>
+<main><section id="mapw"><canvas id="cv" width="900" height="900"></canvas>
+<div id="bar"><button id="pp" class="on">Pause</button><button id="rs">Restart</button><button id="st">Step +10 min</button>
+<select id="sp"><option>0.5</option><option selected>1</option><option>2</option><option>5</option><option>10</option></select>×
+<span id="clock"></span></div>
+<div class="note" style="padding:0 10px 8px">Simulated region: Chennai coast (synthetic traffic, illustrative coastline). Signal animations are educational, not radio propagation: real AIS uses maritime VHF radio, collected by coastal receivers or satellite systems. Scroll to zoom, drag to pan, click a ship.</div></section>
+<aside><select id="vs" style="width:100%"></select><div id="sel"></div><div id="tabs"></div><div id="ws"></div></aside></main>
+<script>
+const $=id=>document.getElementById(id),D2R=Math.PI/180,R2D=180/Math.PI;
+let seed=42;function rnd(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
+const hav=(a,b,c,d)=>{const x=Math.sin((c-a)*D2R/2)**2+Math.cos(a*D2R)*Math.cos(c*D2R)*Math.sin((d-b)*D2R/2)**2;return 2*3440.065*Math.asin(Math.sqrt(x))};
+const brg=(a,b,c,d)=>{const y=Math.sin((d-b)*D2R)*Math.cos(c*D2R),x=Math.cos(a*D2R)*Math.sin(c*D2R)-Math.sin(a*D2R)*Math.cos(c*D2R)*Math.cos((d-b)*D2R);return(Math.atan2(y,x)*R2D+360)%360};
+const adiff=(a,b)=>((b-a+540)%360)-180,clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const COAST=[[12.7,80.205],[12.9,80.24],[13.05,80.28],[13.10,80.30],[13.25,80.33],[13.5,80.32]];
+function coastLon(la){for(let i=1;i<COAST.length;i++){const a=COAST[i-1],b=COAST[i];if(la<=b[0]){return a[1]+(b[1]-a[1])*clamp((la-a[0])/(b[0]-a[0]),0,1)}}return 80.32}
+const P=(la,lo)=>[(lo-80.1)/.8*900,(13.5-la)/.8*900];
+const RT=[[[12.75,80.55],[13.1,80.52],[13.45,80.55]],[[13.0,80.85],[13.09,80.45],[13.10,80.34]],[[13.45,80.8],[13.26,80.45],[13.24,80.37]],[[12.75,80.35],[12.95,80.38],[13.07,80.33]],[[13.2,80.5],[13.3,80.6],[13.15,80.62],[13.05,80.5]],[[12.85,80.85],[12.85,80.45]],[[13.12,80.40],[13.11,80.34]],[[13.25,80.42],[13.24,80.37]],[[12.95,80.45],[13.02,80.36]]];
+const TY=[{k:'Container ship',n:5,c:'#fb923c',L:15,W:4,v:[13,17],r:[0,1,2,5]},{k:'Cargo ship',n:5,c:'#a3e635',L:12,W:3.6,v:[10,13],r:[0,1,3,5]},{k:'Oil tanker',n:4,c:'#f87171',L:14,W:4.6,v:[9,12],r:[0,2,5]},{k:'Fishing vessel',n:5,c:'#facc15',L:6,W:2.6,v:[3,7],r:[4,3]},{k:'Passenger ship',n:2,c:'#f8fafc',L:13,W:4,v:[15,19],r:[1,2]},{k:'Tugboat',n:3,c:'#c084fc',L:5,W:3,v:[6,9],r:[6,7]},{k:'Sailing vessel',n:2,c:'#38bdf8',L:6,W:2.4,v:[4,7],r:[3,4]},{k:'Pleasure craft',n:3,c:'#2dd4bf',L:5,W:2.2,v:[8,14],r:[3,8]}];
+const RX=[{id:'RX-CHENNAI',lat:13.085,lon:80.285},{id:'RX-ENNORE',lat:13.225,lon:80.325},{id:'RX-MAMALLAPURAM',lat:12.62,lon:80.19},{id:'SAT-1 (conceptual)',lat:13.5,lon:80.9}];
+const PORTS=[['Port of Chennai',13.10,80.30],['Ennore Port',13.24,80.33]];
+const EPOCH=Date.UTC(2024,0,15,6,0,0),BASE=180,STEP=20,INT=600;
+const ts=t=>new Date(EPOCH+t*1000).toISOString().slice(5,19).replace('T',' ');
+let T,acc,ships,msgs,frows,pulses,flash,mid,sel=null,selMsg=null,playing=true,spd=1,tab='Monitor',frozen=false,ps=0,prepHtml='<p class="note">Choose data-quality issues and press Run. Issues are injected into a copy of the last 300 synthetic messages; the original stream is untouched.</p>';
+const V={z:1,x:0,y:0},G={z:1,x:0,y:0};
+function init(){seed=42;T=0;acc=0;mid=0;ships=[];msgs=[];frows=[];pulses=[];flash={};sel=null;selMsg=null;let n=0;
+ TY.forEach((ty,ti)=>{for(let j=0;j<ty.n;j++){const ri=ty.r[Math.floor(rnd()*ty.r.length)],rt=RT[ri],w=Math.floor(rnd()*(rt.length-1)),f=rnd(),a=rt[w],b=rt[w+1];
+ const lat=a[0]+(b[0]-a[0])*f,lon=a[1]+(b[1]-a[1])*f,v=ty.v[0]+rnd()*(ty.v[1]-ty.v[0]),cog=brg(lat,lon,b[0],b[1]);n++;
+ const s={id:n-1,mmsi:999000000+n,name:'SIM-'+ty.k.split(' ')[0].toUpperCase().slice(0,4)+'-'+String(n).padStart(2,'0'),t:ti,route:rt,v,lat,lon,cog,sog:v,wp:w+1,dir:1,next:rnd()*INT,trail:[],gtrail:[],msgs:[],gm:[],dist:0,mods:[],lost:0};
+ s.g={lat,lon,cog,sog:v,wp:w+1,dir:1};ships.push(s)}});
+ const o=$('vs');o.innerHTML='<option value="">Select vessel (or click the map)</option>'+ships.map(s=>`<option value="${s.id}">${s.name} · ${TY[s.t].k}</option>`).join('');}
+function step(o,s,dt,mods,tt,real){const rt=s.route;let tg=rt[o.wp];
+ if(hav(o.lat,o.lon,tg[0],tg[1])<.4){let n=o.wp+o.dir;if(n<0||n>=rt.length){o.dir*=-1;n=o.wp+o.dir}o.wp=n;tg=rt[n]}
+ let hd=brg(o.lat,o.lon,tg[0],tg[1]),v=s.v,off=0;
+ for(const m of mods)if(tt>=m.t0&&tt<m.t1){if(m.type=='acc')v*=1+1.5*m.sev;if(m.type=='dec')v*=1-.7*m.sev;if(m.type=='stop')v=0;if(m.type=='turn')off=60*m.sev+off;if(m.type=='dev')off+=25*m.sev}
+ if(off){const a=(hd+off)%360,b=(hd-off+360)%360;hd=Math.sin(a*D2R)>=Math.sin(b*D2R)?a:b}
+ o.cog=(o.cog+clamp(adiff(o.cog,hd),-.2*dt,.2*dt)+360)%360;o.sog+=clamp(v-o.sog,-.08*dt,.08*dt);
+ const d=o.sog*dt/3600,nla=o.lat+d*Math.cos(o.cog*D2R)/60,nlo=o.lon+d*Math.sin(o.cog*D2R)/(60*Math.cos(o.lat*D2R));
+ if(nlo>coastLon(nla)+.02){o.lat=nla;o.lon=nlo;if(real)s.dist+=d}}
+const active=(s,ty)=>s.mods.some(m=>m.type==ty&&T>=m.t0&&T<m.t1);
+function rec(s,o){return{t:T,mmsi:s.mmsi,name:s.name,type:TY[s.t].k,lat:+o.lat.toFixed(5),lon:+o.lon.toFixed(5),sog:+Math.max(0,o.sog+(rnd()-.5)*.2).toFixed(1),cog:+o.cog.toFixed(1),hdg:Math.round((o.cog+(rnd()-.5)*4+360)%360)%360,status:o.sog<.5?'Moored / stopped':(s.t==6?'Under way sailing':'Under way using engine')}}
+function feat(a,b){const dt=b.t-a.t;if(dt<=0)return null;const dist=hav(a.lat,a.lon,b.lat,b.lon),dc=Math.abs(adiff(a.cog,b.cog));return{dt,dist,dsp:dist/(dt/3600),dc,turn:dc/dt*60,sog:b.sog}}
+function emit(s){const g=rec(s,s.g);s.gm.push(g);if(s.gm.length>60)s.gm.shift();s.gtrail.push([g.lat,g.lon]);if(s.gtrail.length>40)s.gtrail.shift();
+ const m=rec(s,s);s.trail.push([m.lat,m.lon]);if(s.trail.length>40)s.trail.shift();
+ if(active(s,'loss')){s.lost++;return}
+ let best=null,bd=1e9;for(const r of RX.slice(0,3)){const d=hav(m.lat,m.lon,r.lat,r.lon);if(d<bd){bd=d;best=r}}
+ const rx=bd<=35?best:RX[3];m.rx=rx.id;m.src='SIMULATED';m.id=++mid;
+ const pv=s.msgs[s.msgs.length-1];if(pv){const f=feat(pv,m);if(f)frows.push([f.sog,f.dsp,f.dist,f.dt,f.dc,f.turn]);if(frows.length>3000)frows.shift()}
+ msgs.push(m);s.msgs.push(m);if(s.msgs.length>200)s.msgs.shift();if(msgs.length>20000)msgs.splice(0,2000);
+ if(pulses.length<50)pulses.push({s,rx,t0:performance.now()});}
+function advance(sec){const end=T+sec;while(T<end){T+=STEP;for(const s of ships){step(s,s,STEP,s.mods,T,1);step(s.g,s,STEP,[],T,0);if(T>=s.next){s.next+=INT;emit(s)}}}}
+/* ---------- drawing ---------- */
+const cv=$('cv'),c=cv.getContext('2d');
+function hull(ty,k){const L=ty.L,W=ty.W;c.beginPath();
+ if(ty.k=='Sailing vessel'){c.moveTo(0,-L);c.lineTo(W,L);c.lineTo(-W,L)}
+ else if(ty.k=='Tugboat'){c.moveTo(-W,-L*.6);c.quadraticCurveTo(0,-L*1.3,W,-L*.6);c.lineTo(W,L);c.lineTo(-W,L)}
+ else if(ty.k=='Pleasure craft'){c.moveTo(0,-L);c.lineTo(W,L*.2);c.lineTo(W*.7,L);c.lineTo(-W*.7,L);c.lineTo(-W,L*.2)}
+ else{c.moveTo(0,-L);c.lineTo(W,-L*.3);c.lineTo(W,L*.8);c.lineTo(-W,L*.8);c.lineTo(-W,-L*.3)}c.closePath()}
+function ship(s,sx){const ty=TY[s.t],[x,y]=P(s.lat,s.lon);c.save();c.translate(x,y);c.scale(sx,sx);c.rotate(s.cog*D2R);hull(ty);c.fillStyle=ty.c;c.fill();c.strokeStyle='#021;';c.lineWidth=.8;c.strokeStyle='#04101f';c.stroke();
+ c.fillStyle='#04101f';if(ty.k=='Container ship'){for(let i=0;i<4;i++)c.fillRect(-2.5,-ty.L*.4+i*5,5,3.5)}else if(ty.k=='Oil tanker'){c.fillRect(-2,ty.L*.3,4,4)}else if(ty.k=='Passenger ship'){c.fillRect(-2.5,-4,5,9)}else if(ty.k=='Fishing vessel'){c.fillRect(-.6,-ty.L*.9,1.2,6)}
+ c.restore()}
+function draw(){const now=performance.now();for(const k of['z','x','y'])V[k]+=(G[k]-V[k])*.14;
+ c.setTransform(1,0,0,1,0,0);c.fillStyle='#061a30';c.fillRect(0,0,900,900);c.setTransform(V.z,0,0,V.z,V.x,V.y);const lw=1/V.z,sx=1/Math.sqrt(V.z);
+ let g=c.createLinearGradient(0,0,900,0);g.addColorStop(0,'#0b2f50');g.addColorStop(1,'#0a4c7c');c.fillStyle=g;c.fillRect(-900,-900,2700,2700);
+ c.strokeStyle='rgba(120,190,255,.1)';c.lineWidth=lw;for(let i=0;i<=8;i++){c.beginPath();c.moveTo(i*112.5,-900);c.lineTo(i*112.5,1800);c.moveTo(-900,i*112.5);c.lineTo(1800,i*112.5);c.stroke()}
+ c.beginPath();COAST.forEach((p,i)=>{const q=P(p[0],p[1]);i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])});c.lineTo(-900,P(13.5,0)[1]);c.lineTo(-900,P(12.7,0)[1]);c.closePath();c.fillStyle='#16291f';c.fill();c.strokeStyle='#4ade80';c.lineWidth=2*lw;c.stroke();
+ c.strokeStyle='rgba(34,211,238,.13)';c.setLineDash([5*lw,5*lw]);RT.forEach(r=>{c.beginPath();r.forEach((p,i)=>{const q=P(p[0],p[1]);i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])});c.stroke()});c.setLineDash([]);
+ c.font=`${11*sx}px system-ui`;PORTS.forEach(p=>{const q=P(p[1],p[2]);c.fillStyle='#fbbf24';c.beginPath();c.arc(q[0],q[1],4*sx,0,7);c.fill();c.fillText('⚓ '+p[0],q[0]+7*sx,q[1]+4*sx)});
+ RX.forEach(r=>{const q=P(r.lat,r.lon),f=flash[r.id]&&now-flash[r.id]<500?1-(now-flash[r.id])/500:0;c.fillStyle=f?'#fff':'#22d3ee';c.strokeStyle='#22d3ee';c.lineWidth=lw*1.5;
+ if(f){c.beginPath();c.arc(q[0],q[1],(8+16*(1-f))*sx,0,7);c.globalAlpha=f;c.stroke();c.globalAlpha=1}
+ c.beginPath();if(r.id[0]=='S'){c.moveTo(q[0]-6*sx,q[1]);c.lineTo(q[0],q[1]-6*sx);c.lineTo(q[0]+6*sx,q[1]);c.lineTo(q[0],q[1]+6*sx)}else{c.moveTo(q[0],q[1]-7*sx);c.lineTo(q[0]+5*sx,q[1]+4*sx);c.lineTo(q[0]-5*sx,q[1]+4*sx)}c.closePath();c.fill();c.fillStyle='#9be7f5';c.fillText(r.id,q[0]-(r.id[0]=='S'?95*sx:-8*sx),q[1]+(r.id[0]=='S'?4*sx:12*sx))});
+ if(sel){const s=sel;const tr=(a,col)=>{c.strokeStyle=col;c.lineWidth=2*lw;c.beginPath();a.forEach((p,i)=>{const q=P(p[0],p[1]);i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])});c.stroke()};
+ c.strokeStyle='#3b82f6';c.setLineDash([6*lw,4*lw]);c.lineWidth=2*lw;c.beginPath();s.route.forEach((p,i)=>{const q=P(p[0],p[1]);i?c.lineTo(q[0],q[1]):c.moveTo(q[0],q[1])});c.stroke();c.setLineDash([]);
+ tr(s.gtrail,'#3b82f6');tr(s.trail,s.mods.length?'#fb923c':'#22d3ee');
+ if(s.mods.length){const a=P(s.lat,s.lon),b=P(s.g.lat,s.g.lon);c.strokeStyle='#ef4444';c.setLineDash([3*lw,3*lw]);c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();c.setLineDash([]);c.globalAlpha=.5;ship({...s.g,t:s.t,cog:s.g.cog},sx);c.globalAlpha=1}}
+ ships.forEach(s=>{ship(s,sx);if(V.z>1.6||s==sel){const q=P(s.lat,s.lon);c.fillStyle='#d6e6f7';c.font=`${9*sx}px system-ui`;c.fillText(s.name,q[0]+8*sx,q[1]-6*sx)}});
+ if(sel){const q=P(sel.lat,sel.lon);c.strokeStyle='#fff';c.lineWidth=1.5*lw;c.beginPath();c.arc(q[0],q[1],16*sx,0,7);c.stroke()}
+ pulses=pulses.filter(p=>{const a=now-p.t0;if(a>1100)return false;const q=P(p.s.lat,p.s.lon),r=P(p.rx.lat,p.rx.lon);
+ if(a<700){c.strokeStyle='#22d3ee';c.globalAlpha=1-a/700;c.lineWidth=1.5*lw;c.beginPath();c.arc(q[0],q[1],(6+18*a/700)*sx,0,7);c.stroke();c.globalAlpha=1}
+ const f=clamp((a-100)/800,0,1);if(f>0&&f<1){c.strokeStyle='rgba(34,211,238,.25)';c.beginPath();c.moveTo(q[0],q[1]);c.lineTo(r[0],r[1]);c.stroke();c.fillStyle='#fff';c.beginPath();c.arc(q[0]+(r[0]-q[0])*f,q[1]+(r[1]-q[1])*f,2.5*sx,0,7);c.fill()}
+ if(f>=1&&!p.done){p.done=1;flash[p.rx.id]=now}return true});
+ c.setTransform(1,0,0,1,0,0);}
+let last=performance.now();
+function frame(n){const dt=Math.min(.1,(n-last)/1000);last=n;if(playing){acc+=dt*BASE*spd;while(acc>=STEP){advance(STEP);acc-=STEP}}draw();requestAnimationFrame(frame)}
+/* ---------- map interaction ---------- */
+let drag=null;
+cv.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY,m:0};cv.setPointerCapture(e.pointerId)};
+cv.onpointermove=e=>{if(!drag)return;const r=cv.getBoundingClientRect(),k=900/r.width,dx=(e.clientX-drag.x)*k,dy=(e.clientY-drag.y)*k;drag.m+=Math.abs(dx)+Math.abs(dy);drag.x=e.clientX;drag.y=e.clientY;G.x+=dx;G.y+=dy;V.x+=dx;V.y+=dy};
+cv.onpointerup=e=>{if(drag&&drag.m<4){const r=cv.getBoundingClientRect(),k=900/r.width,wx=((e.clientX-r.left)*k-V.x)/V.z,wy=((e.clientY-r.top)*k-V.y)/V.z;let b=null,bd=16/Math.sqrt(V.z);ships.forEach(s=>{const q=P(s.lat,s.lon),d=Math.hypot(q[0]-wx,q[1]-wy);if(d<bd){bd=d;b=s}});if(b)pick(b.id,true)}drag=null};
+cv.onwheel=e=>{e.preventDefault();const r=cv.getBoundingClientRect(),k=900/r.width,mx=(e.clientX-r.left)*k,my=(e.clientY-r.top)*k,nz=clamp(G.z*(e.deltaY<0?1.2:1/1.2),1,6),f=nz/G.z;G.x=mx-(mx-G.x)*f;G.y=my-(my-G.y)*f;G.z=nz;Object.assign(V,G)};
+function pick(i,focus){sel=i===''||i==null?null:ships[+i];$('vs').value=sel?sel.id:'';if(sel&&focus){const q=P(sel.lat,sel.lon);G.z=2.6;G.x=450-q[0]*2.6;G.y=450-q[1]*2.6}refresh(true)}
+$('vs').onchange=e=>pick(e.target.value,true);
+$('pp').onclick=()=>{playing=!playing;$('pp').textContent=playing?'Pause':'Resume';$('pp').classList.toggle('on',playing)};
+$('rs').onclick=()=>{init();Object.assign(G,{z:1,x:0,y:0});refresh(true)};
+$('st').onclick=()=>{advance(600)};$('sp').onchange=e=>spd=+e.target.value;
+/* ---------- panels ---------- */
+const TABS=['Monitor','Anomaly','Features','Analytics','Pipeline','Preprocess'];
+$('tabs').innerHTML=TABS.map(t=>`<button data-t="${t}">${t}</button>`).join('');
+$('tabs').onclick=e=>{if(e.target.dataset.t){tab=e.target.dataset.t;skel()}};
+const tbl=(h,r)=>`<div style="overflow:auto"><table><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr>${r.join('')}</table></div>`;
+const FIELD={MMSI:'Maritime Mobile Service Identity (here a simulated 9-digit ID)',BaseDateTime:'UTC time of the report (simulated clock)',LAT:'Latitude, decimal degrees',LON:'Longitude, decimal degrees',SOG:'Speed Over Ground, knots',COG:'Course Over Ground, degrees clockwise from true north',Heading:'Direction the bow points, degrees',VesselType:'Ship category',Status:'Navigation status',ReceiverID:'Station that collected the broadcast'};
+const toRow=m=>({MMSI:m.mmsi,BaseDateTime:new Date(EPOCH+m.t*1000).toISOString(),LAT:m.lat,LON:m.lon,SOG:m.sog,COG:m.cog,Heading:m.hdg,VesselType:m.type,Status:m.status,VesselName:m.name,ReceiverID:m.rx,Source:'SIMULATED'});
+const STAGES=[['Ship navigation sensors','GPS, gyro compass and log supply position, course, heading and speed to the transponder.'],['AIS transponder','Packs these values with the MMSI into a standard AIS message at a regular reporting interval.'],['VHF AIS broadcast','The message is broadcast on maritime VHF channels (about 162 MHz). Range is typically tens of nautical miles.'],['Coastal / satellite receiver','Shore stations and satellites that happen to be in range pick up broadcasts. Not every message is received.'],['Aggregation and storage','Receivers forward decoded messages to a central store, time-stamped and tagged by source.'],['Historical AIS dataset','Months of messages form a table with MMSI, BaseDateTime, LAT, LON, SOG, COG, Heading, VesselType, Status. Your research uses NOAA Marine Cadastre data in this form.'],['Research data processing','Validate, clean, flag and chronologically sort observations while keeping an audit trail.'],['Machine learning analysis','Six trajectory features are scaled and scored by Isolation Forest and Novelty LOF, fused and compared to a threshold. This demo only shows the data flow, not trained model output.']];
+function skel(){[...$('tabs').children].forEach(b=>b.classList.toggle('on',b.dataset.t==tab));let h='';
+ if(tab=='Monitor')h=`<div class="row"><input id="q" placeholder="search vessel / MMSI" size="16"><select id="ft"><option value="">All types</option>${TY.map(t=>`<option>${t.k}</option>`).join('')}</select><select id="fr"><option value="">All receivers</option>${RX.map(r=>`<option>${r.id}</option>`).join('')}</select><label><input type="checkbox" id="fs"> selected vessel</label><button id="fz">Freeze</button><button id="cs">CSV</button></div><div id="dyn"></div><div id="js"></div>`;
+ else if(tab=='Anomaly')h=`<p class="note">Select a vessel, schedule one or more events (combine by applying several), then watch the orange path diverge from the blue planned path.</p><div class="row"><select id="sc"><option value="acc">Sudden acceleration</option><option value="dec">Sudden deceleration</option><option value="turn">Sharp turn</option><option value="dev">Route deviation</option><option value="stop">Unexpected stop</option><option value="loss">AIS signal loss</option></select>Severity <input id="sv" type="range" min=".2" max="1" step=".1" value=".7" style="width:80px"></div><div class="row">Start in <input id="st0" type="number" value="0" style="width:60px"> min · Duration <input id="du" type="number" value="60" style="width:60px"> min <button id="ap">Apply</button><button id="rm">Reset vessel</button></div><div id="dyn"></div>`;
+ else if(tab=='Analytics')h=`<div class="row"><select id="af"><option value="">All vessel types</option>${TY.map(t=>`<option>${t.k}</option>`).join('')}</select></div><div id="dyn"></div>`;
+ else if(tab=='Pipeline')h=`<p class="note">From ship to dataset. Click a stage.</p><div class="row">${STAGES.map((s,i)=>`<button data-p="${i}">${i+1}. ${s[0]}</button>`).join('')}</div><div id="dyn"></div>`;
+ else if(tab=='Preprocess')h=`<div class="row">${[['ms','Missing SOG'],['mc','Missing coordinates'],['iv','Invalid coordinates'],['dp','Duplicates'],['mm','Missing messages']].map(x=>`<label><input type="checkbox" id="${x[0]}"> ${x[1]}</label>`).join(' ')}</div><button id="run">Run Data Preprocessing</button><div id="dyn"></div>`;
+ else h='<div id="dyn"></div>';$('ws').innerHTML=h;bind();refresh(true)}
+function bind(){const on=(i,f)=>{if($(i))$(i).onclick=f};
+ on('fz',e=>{frozen=!frozen;e.target.classList.toggle('on',frozen)});
+ on('cs',()=>{const r=msgs.slice(-200).map(toRow),k=Object.keys(r[0]||{MMSI:0});$('js').innerHTML='<p class="note">Last 200 messages as CSV (select all and copy; file downloads are not available inside this page):</p><textarea style="width:100%;height:120px;background:#050d1c;color:#d6e6f7">'+[k.join(',')].concat(r.map(o=>k.map(x=>o[x]).join(','))).join('\n')+'</textarea>'});
+ on('ap',()=>{if(!sel)return alert('Select a vessel first');const t0=T+ +$('st0').value*60;sel.mods.push({type:$('sc').value,sev:+$('sv').value,t0,t1:t0+ +$('du').value*60});refresh(true)});
+ on('rm',()=>{if(sel){sel.mods=[];refresh(true)}});on('run',runPrep);
+ document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{ps=+b.dataset.p;refresh(true)});
+ const d=$('dyn');if(d)d.onclick=e=>{const r=e.target.closest('tr[data-i]');if(r){const m=msgs[+r.dataset.i-1];if(m){selMsg=m.id;pick(ships.find(s=>s.mmsi==m.mmsi).id,true);$('js').innerHTML='<pre>'+JSON.stringify(toRow(m),null,2)+'</pre>'+Object.entries(FIELD).map(([k,v])=>`<div class="note"><b>${k}</b> — ${v}</div>`).join('')}}}}
+function bars(items,fmt){const mx=Math.max(1e-9,...items.map(i=>i[1]));return items.map(i=>`<div class="bar"><span>${i[0]}</span><i style="width:${Math.max(1,i[1]/mx*160)}px"></i><span>${fmt?fmt(i[1]):i[1]}</span></div>`).join('')}
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0,f2=(x,n=2)=>x==null||isNaN(x)?'—':(+x).toFixed(n);
+function body(){
+ if(tab=='Monitor'){if(frozen)return null;const q=($('q')||{value:''}).value.toLowerCase(),ft=$('ft').value,fr=$('fr').value,fs=$('fs').checked;
+  const r=[];for(let i=msgs.length-1;i>=0&&r.length<14;i--){const m=msgs[i];if(ft&&m.type!=ft||fr&&m.rx!=fr||fs&&(!sel||m.mmsi!=sel.mmsi)||q&&!(m.name.toLowerCase().includes(q)||String(m.mmsi).includes(q)))continue;r.push(`<tr data-i="${m.id}" class="${m.id==selMsg?'hl':''}"><td>${ts(m.t)}</td><td>${m.mmsi}</td><td>${m.name}</td><td>${m.lat}</td><td>${m.lon}</td><td>${m.sog}</td><td>${m.cog}</td><td>${m.rx}</td></tr>`)}
+  return tbl(['UTC (sim)','MMSI','Vessel','Lat','Lon','SOG kn','COG °','Receiver'],r)+'<div class="note">Click a row to inspect the message and highlight the vessel.</div>'}
+ if(tab=='Anomaly'){if(!sel)return'<p class="warn">Select a vessel to configure and compare scenarios.</p>';const s=sel,a=s.msgs.slice(-10),b=s.gm.slice(-10),fe=l=>{const o=[];for(let i=1;i<l.length;i++){const f=feat(l[i-1],l[i]);if(f)o.push(f)}return o},fa=fe(a),fb=fe(b),lostNow=active(s,'loss'),lr=s.msgs[s.msgs.length-1];
+  return `<h4 style="margin:6px 0">Before (planned) vs After (modified)</h4>`+tbl(['Metric','Before','After'],[['SOG now (kn)',f2(s.g.sog,1),f2(s.sog,1)],['COG now (°)',f2(s.g.cog,0),f2(s.cog,0)],['Mean derived speed (kn)',f2(avg(fb.map(x=>x.dsp)),1),f2(avg(fa.map(x=>x.dsp)),1)],['Max course change (°)',f2(Math.max(0,...fb.map(x=>x.dc)),1),f2(Math.max(0,...fa.map(x=>x.dc)),1)],['Max turning rate (°/min)',f2(Math.max(0,...fb.map(x=>x.turn)),2),f2(Math.max(0,...fa.map(x=>x.turn)),2)],['Messages received (recent)',b.length,a.length],['Messages lost (total)',0,s.lost]].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`))+
+  `<p><b>Deviation from plan:</b> ${f2(hav(s.lat,s.lon,s.g.lat,s.g.lon))} nm</p>`+(lostNow?`<p class="warn">⚠ Communication gap in progress. Last received ${lr?ts(lr.t)+' at '+lr.lat+', '+lr.lon:'—'}. A gap is not evidence of malicious behaviour.</p>`:'')+
+  '<p class="note">Scheduled events: '+(s.mods.length?s.mods.map(m=>`${m.type} (${Math.round((m.t0-T)/60)} → ${Math.round((m.t1-T)/60)} min, sev ${m.sev})`).join('; '):'none')+'</p><p class="note">Blue = original route / planned path, orange = modified path, dashed red = deviation. “Before” uses an unmodified twin of the same vessel run in parallel.</p>'}
+ if(tab=='Features'){if(!sel)return'<p class="warn">Select a vessel.</p>';const l=sel.msgs.slice(-8),r=l.map((m,i)=>{const f=i?feat(l[i-1],m):null;return `<tr><td>${ts(m.t)}</td><td>${m.sog}</td><td>${m.cog}</td><td>${f?f2(f.dsp,2):'—'}</td><td>${f?f2(f.dist,3):'—'}</td><td>${f?f.dt:'—'}</td><td>${f?f2(f.dc,1):'—'}</td><td>${f?f2(f.turn,2):'—'}</td></tr>`});
+  return `<div class="f">Distance = haversine: 2R·asin√(sin²(Δφ/2)+cosφ₁·cosφ₂·sin²(Δλ/2)), R = 3440.065 nm</div><div class="f">Elapsed time Δt = t₂ − t₁ (s); invalid if Δt ≤ 0</div><div class="f">Derived speed = distance / (Δt / 3600)  [knots]</div><div class="f">Course change = |((COG₂ − COG₁ + 540) mod 360) − 180|</div><div class="f">Turning rate = course change / Δt × 60  [°/min]</div>`+tbl(['Time','SOG','COG','Derived kn','Dist nm','Δt s','ΔCOG °','Turn °/min'],r)+'<p class="note">The first observation has no predecessor, so its derived features are blank (never zero-filled). Gaps from lost messages show up as larger Δt.</p>'}
+ if(tab=='Analytics'){const af=$('af').value,m=af?msgs.filter(x=>x.type==af):msgs,cnt={},rc={};m.forEach(x=>rc[x.rx]=(rc[x.rx]||0)+1);const vs=ships.filter(s=>!af||TY[s.t].k==af);TY.forEach(t=>cnt[t.k]=ships.filter(s=>TY[s.t].k==t.k).length);
+  const hs=[0,5,10,15,20].map(b=>[b+'–'+(b+5),m.filter(x=>x.sog>=b&&x.sog<b+5).length]),hc=[0,2,5,10,30,181].slice(0,5).map((b,i)=>{const e=[2,5,10,30,181][i];return[b+'–'+e+'°',frows.filter(r=>r[4]>=b&&r[4]<e).length]});
+  const n=frows.slice(-800),nm=['SOG','Derived','Dist','Δt','ΔCOG','Turn'],cr=(i,j)=>{const x=n.map(r=>r[i]),y=n.map(r=>r[j]),mx=avg(x),my=avg(y);let a=0,b=0,d=0;x.forEach((v,k)=>{a+=(v-mx)*(y[k]-my);b+=(v-mx)**2;d+=(y[k]-my)**2});return b&&d?a/Math.sqrt(b*d):0};
+  let hm='<div class="hm"><div></div>'+nm.map(x=>`<div>${x}</div>`).join('');nm.forEach((a,i)=>{hm+=`<div>${a}</div>`;nm.forEach((b,j)=>{const v=n.length>2?cr(i,j):0;hm+=`<div style="background:${v>=0?`rgba(34,211,238,${Math.abs(v)})`:`rgba(251,146,60,${Math.abs(v)})`}">${v.toFixed(2)}</div>`})});hm+='</div>';
+  const mt=m.length+(af?0:0),lost=vs.reduce((a,s)=>a+s.lost,0);
+  return `<div class="row"><b>${vs.length}</b> vessels · <b>${m.length}</b> received · <b>${lost}</b> lost to signal-loss events · mean SOG <b>${f2(avg(m.map(x=>x.sog)),1)}</b> kn</div><h4>Vessel types</h4>${bars(Object.entries(cnt).filter(e=>!af||e[0]==af))}<h4>SOG distribution (messages)</h4>${bars(hs)}<h4>Course-change distribution</h4>${bars(hc)}<h4>Messages per receiver</h4>${bars(Object.entries(rc))}<h4>Distance travelled (nm)</h4>${bars(vs.slice().sort((a,b)=>b.dist-a.dist).slice(0,8).map(s=>[s.name,s.dist]),x=>f2(x,1))}<h4>Feature correlation (last ${n.length} rows)</h4>${hm}`}
+ if(tab=='Pipeline'){const m=msgs[msgs.length-1];return `<div class="f"><b>${ps+1}. ${STAGES[ps][0]}</b></div><p>${STAGES[ps][1]}</p>`+(m?`<p class="note">Latest synthetic message:</p><pre>${JSON.stringify(toRow(m),null,1)}</pre>`:'')+'<p class="note">Our actual research uses historical AIS observations distributed through NOAA Marine Cadastre. This simulator recreates the data collection workflow using synthetic vessels and messages for educational demonstration.</p>'}
+ if(tab=='Preprocess')return prepHtml;return''}
+function runPrep(){const chk=k=>$(k).checked;let a=msgs.slice(-300).map(m=>({...m}));if(!a.length)return;
+ a.forEach((m,j)=>{if(chk('ms')&&j%17==3)m.sog=null;if(chk('mc')&&j%23==5)m.lat=null;if(chk('iv')&&j%29==7)m.lat=95.2});
+ if(chk('mm'))a=a.filter((m,j)=>j%13!=6);if(chk('dp')){const n=a.length;for(let j=0;j<n;j+=19)a.push({...a[j]})}
+ const raw=a.slice(),seen=new Set(),out=[],cnt={miss:0,inv:0,dup:0,flag:0,gap:0};
+ a.sort((x,y)=>x.t-y.t||x.mmsi-y.mmsi);const lt={};
+ a.forEach(m=>{const key=m.mmsi+'|'+m.t;let fl=[];if(seen.has(key)){fl.push('DUPLICATE');cnt.dup++}seen.add(key);
+  if(m.lat==null){fl.push('MISSING_COORD');cnt.miss++}else if(Math.abs(m.lat)>90||Math.abs(m.lon)>180){fl.push('INVALID_COORD');cnt.inv++}
+  if(m.sog==null){fl.push('MISSING_SOG');cnt.miss++}
+  if(lt[m.mmsi]!=null&&m.t-lt[m.mmsi]>1.5*INT&&!fl.includes('DUPLICATE')){fl.push('REPORTING_GAP');cnt.gap++}lt[m.mmsi]=m.t;
+  m.flags=fl;m.excl=fl.some(x=>['DUPLICATE','MISSING_COORD','INVALID_COORD'].includes(x));if(fl.length)cnt.flag++;out.push(m)});
+ const ex=out.filter(m=>m.excl).length,row=(m,fl)=>`<tr><td>${ts(m.t)}</td><td>${m.mmsi}</td><td>${m.lat??'NaN'}</td><td>${m.lon}</td><td>${m.sog??'NaN'}</td>${fl?`<td>${m.flags.join(', ')||'ok'}</td><td>${m.excl?'excluded from analysis (kept in audit log)':'kept'}</td>`:''}</tr>`;
+ prepHtml=`<div class="row"><b>Input ${raw.length}</b> · valid ${out.length-ex} · invalid/excluded ${ex} · missing values ${cnt.miss} · duplicates ${cnt.dup} · flagged ${cnt.flag} · reporting gaps ${cnt.gap}</div><p class="note">Nothing is silently deleted: excluded rows stay in the audit table with a reason. Steps: validate → clean → sort by time → feature engineering.</p><h4>Before (raw order)</h4>${tbl(['Time','MMSI','Lat','Lon','SOG'],raw.slice(0,6).map(m=>row(m,0)))}<h4>After (sorted, audited, first flagged rows)</h4>${tbl(['Time','MMSI','Lat','Lon','SOG','Flags','Action'],out.filter(m=>m.flags.length).slice(0,10).map(m=>row(m,1)))}`;refresh(true)}
+function refresh(force){$('clock').textContent=`${ts(T)} UTC · +${Math.floor(T/3600)}h ${Math.floor(T%3600/60)}m · ${msgs.length} msgs`;
+ $('sel').innerHTML=sel?`<b style="color:${TY[sel.t].c}">${sel.name}</b> · ${TY[sel.t].k} · MMSI ${sel.mmsi} (simulated)<br>Lat ${f2(sel.lat,4)} Lon ${f2(sel.lon,4)} · SOG ${f2(sel.sog,1)} kn · COG ${f2(sel.cog,0)}° · ${sel.sog<.5?'Stopped':'Under way'} · ${sel.msgs.length} msgs received · route ${sel.route.length} waypoints`:'<span class="note">No vessel selected. Click a ship on the map.</span>';
+ const d=$('dyn');if(d){const h=body();if(h!=null&&(force||tab!='Preprocess'))d.innerHTML=h}}
+init();skel();setInterval(()=>refresh(false),500);requestAnimationFrame(frame);
+</script></body></html>

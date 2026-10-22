@@ -1,0 +1,56 @@
+seed: 42
+data:
+  raw_dir: /Users/kishores/Documents/Introduction to data analytics/data/raw
+  processed_dir: data/processed
+  manifest_dir: data/manifests
+  source_url: https://ocmgeodatastor1.blob.core.windows.net/marinecadastre/ais2024/ais-2024-01-01.parquet
+  source_filename: ais-2024-01-01.parquet
+  source_date: 2024-01-01
+  maximum_download_mb: 350
+  sample_rows: 200000
+  columns:
+    vessel_id:
+    - MMSI
+    - mmsi
+    - vessel_id
+    - VesselID
+    timestamp:
+    - BaseDateTime
+    - base_date_time
+    - timestamp
+    - Timestamp
+    - datetime
+    - time
+    latitude:
+    - LAT
+    - lat
+    - latitude
+    - Latitude
+    longitude:
+    - LON
+    - lon
+    - longitude
+    - Longitude
+    sog:
+    - SOG
+    - sog
+    - speed
+    - speed_over_ground
+    cog:
+    - COG
+    - cog
+    - course
+    - course_over_ground
+    heading:
+    - Heading
+    - heading
+    vessel_type:
+    - VesselType
+    - vessel_type
+    - type
+models:
+  contamination: 0.01
+  alert_quantile: 0.99
+simulation:
+  maximum_track_rows: 2000
+  random_seed: 42

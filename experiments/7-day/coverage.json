@@ -1,0 +1,86 @@
+{
+  "requested_start": "2024-01-01",
+  "requested_end": "2024-01-07",
+  "expected_dates": [
+    "2024-01-01",
+    "2024-01-02",
+    "2024-01-03",
+    "2024-01-04",
+    "2024-01-05",
+    "2024-01-06",
+    "2024-01-07"
+  ],
+  "coverage": {
+    "2024-01-04": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7081849,
+      "timestamp_min_utc": "2024-01-04T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-04T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-04"
+      ],
+      "requested_date": "2024-01-04"
+    },
+    "2024-01-02": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7292731,
+      "timestamp_min_utc": "2024-01-02T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-02T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-02"
+      ],
+      "requested_date": "2024-01-02"
+    },
+    "2024-01-01": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7293408,
+      "timestamp_min_utc": "2024-01-01T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-01T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-01"
+      ],
+      "requested_date": "2024-01-01"
+    },
+    "2024-01-03": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7287525,
+      "timestamp_min_utc": "2024-01-03T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-03T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-03"
+      ],
+      "requested_date": "2024-01-03"
+    },
+    "2024-01-07": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7240044,
+      "timestamp_min_utc": "2024-01-07T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-07T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-07"
+      ],
+      "requested_date": "2024-01-07"
+    },
+    "2024-01-06": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7284090,
+      "timestamp_min_utc": "2024-01-06T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-06T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-06"
+      ],
+      "requested_date": "2024-01-06"
+    },
+    "2024-01-05": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7393444,
+      "timestamp_min_utc": "2024-01-05T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-05T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-05"
+      ],
+      "requested_date": "2024-01-05"
+    }
+  },
+  "acquisition_failures": []
+}

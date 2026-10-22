@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maritime Anomaly Research Presentation</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="deck-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">AIS</div>
+          <div>
+            <div class="eyebrow">Research presentation</div>
+            <div class="brand-name">Maritime anomaly screening</div>
+          </div>
+        </div>
+        <div class="deck-controls">
+          <button id="prevBtn" class="nav-btn" aria-label="Previous slide">◀</button>
+          <div id="slideCounter" class="slide-counter">01 / 10</div>
+          <button id="nextBtn" class="nav-btn" aria-label="Next slide">▶</button>
+        </div>
+      </header>
+
+      <main class="slide-stage">
+        <section class="slide active" data-index="0">
+          <div class="slide-grid hero-slide">
+            <div>
+              <p class="kicker">Project overview</p>
+              <h1>Adaptive maritime anomaly screening under changing conditions</h1>
+              <p class="lead">
+                A research prototype for identifying unusual vessel movement using NOAA AIS data,
+                unsupervised learning, synthetic scenario testing, and an interactive dashboard.
+              </p>
+              <div class="pill-row">
+                <span class="pill">NOAA AIS</span>
+                <span class="pill">Isolation Forest</span>
+                <span class="pill">LOF</span>
+                <span class="pill">Synthetic benchmark</span>
+              </div>
+            </div>
+            <div class="metric-panel">
+              <div class="metric-card glow">
+                <span class="metric-label">Verified samples</span>
+                <strong>200,000</strong>
+                <small>per experiment</small>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Model bundle</span>
+                <strong>Fixed + Shadow</strong>
+                <small>robust ensemble</small>
+              </div>
+              <div class="metric-card">
+                <span class="metric-label">Evaluation</span>
+                <strong>Historical + Synthetic</strong>
+                <small>unlabeled + controlled</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="1">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Challenge</p>
+              <h2>Why this is difficult</h2>
+              <ul class="bullet-list">
+                <li>Maritime movement is highly contextual and vessel-specific.</li>
+                <li>Historical AIS records are mostly unlabeled, so real accuracy is unknown.</li>
+                <li>Missing reports, irregular sampling, traffic shifts, and route variation distort signals.</li>
+                <li>A raw outlier score is not proof of intent, danger, or violation.</li>
+              </ul>
+            </div>
+            <div class="panel accent-panel">
+              <h3>Research question</h3>
+              <p>
+                Can a reproducible unsupervised framework screen unusual vessel movement in a way that is
+                auditable, interpretable, and honest about its uncertainty?
+              </p>
+              <div class="quote-box">
+                “The output is a review signal, not a legal or safety conclusion.”
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="2">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Data</p>
+              <h2>Verified NOAA Marine Cadastre source</h2>
+              <ul class="bullet-list compact">
+                <li>Official daily vessel broadcast GeoParquet files for 2024.</li>
+                <li>One-day and seven-day experiments retained for final comparison.</li>
+                <li>Manifests verify schema, dates, row counts, and file integrity.</li>
+                <li>Samples capped at 200,000 rows with deterministic seeding.</li>
+              </ul>
+            </div>
+            <div class="chart-wrap">
+              <img src="../reports/figures/eda/16_daily_traffic_pattern.png" alt="Daily traffic pattern" />
+              <figcaption>Daily traffic pattern and date-level variation.</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="3">
+          <div class="slide-grid single-col">
+            <div>
+              <p class="kicker">Architecture</p>
+              <h2>End-to-end data-to-dashboard workflow</h2>
+            </div>
+            <div class="mermaid-box">
+              <div class="flow-step">Source files</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Validate + clean</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Feature engineering</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Train ensemble</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-step">Dashboard + simulator</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="4">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Method</p>
+              <h2>Model and feature pipeline</h2>
+              <ul class="bullet-list compact">
+                <li>Chronological train/validation/test split.</li>
+                <li>Training-only median imputation and robust scaling.</li>
+                <li>Isolation Forest + novelty Local Outlier Factor.</li>
+                <li>Robust normalization and fused anomaly score.</li>
+                <li>Threshold from training score quantile.</li>
+              </ul>
+            </div>
+            <div class="chart-wrap small">
+              <img src="../reports/figures/eda/08_correlation_heatmap.png" alt="Feature correlation" />
+              <figcaption>Correlation structure of the movement features.</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="5">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Simulation</p>
+              <h2>Scenario-based controlled evaluation</h2>
+              <ul class="bullet-list compact">
+                <li>Speed jumps, deceleration, route deviations, and stops.</li>
+                <li>Missing-field masks and distribution-shift interventions.</li>
+                <li>Each injected case is paired with its original counterfactual.</li>
+                <li>Test labels are used only for controlled benchmark design.</li>
+              </ul>
+            </div>
+            <div class="chart-wrap">
+              <img src="../reports/figures/simulation/simulation_score_response.png" alt="Simulation score response" />
+              <figcaption>Model sensitivity to controlled movement changes.</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="6">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Interface</p>
+              <h2>Dashboard and simulator</h2>
+              <ul class="bullet-list compact">
+                <li>Historical track replay with time-based browsing.</li>
+                <li>Model evidence: scores, thresholds, quality flags, components.</li>
+                <li>Scenario controls that recompute features for modified rows.</li>
+                <li>Session-local event log and score comparisons.</li>
+              </ul>
+            </div>
+            <div class="chart-wrap">
+              <img src="../reports/figures/comparison/geographic_traffic_density.png" alt="Geographic density" />
+              <figcaption>Traffic concentration and route structure in the sample.</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="7">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Results</p>
+              <h2>Historical alert behavior</h2>
+              <div class="stat-stack">
+                <div class="stat-box"><span>One-day</span><strong>0.87%</strong><small>flags</small></div>
+                <div class="stat-box"><span>Seven-day</span><strong>1.01%</strong><small>flags</small></div>
+              </div>
+              <p>
+                These are historical alert rates, not real-world false-alarm rates. No independent anomaly labels exist,
+                so the counts are screening statistics only.
+              </p>
+            </div>
+            <div class="chart-wrap">
+              <img src="../reports/figures/model_training/anomaly_score_distribution.png" alt="Anomaly score distribution" />
+              <figcaption>Historical score distribution for fixed and shadow model bundles.</figcaption>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="8">
+          <div class="slide-grid single-col">
+            <div>
+              <p class="kicker">Benchmark insights</p>
+              <h2>Controlled synthetic performance</h2>
+            </div>
+            <div class="comparison-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Duration</th>
+                    <th>Model</th>
+                    <th>Precision</th>
+                    <th>Recall</th>
+                    <th>ROC-AUC</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>One day</td>
+                    <td>Fixed</td>
+                    <td>0.0456</td>
+                    <td>0.0139</td>
+                    <td>0.6925</td>
+                  </tr>
+                  <tr>
+                    <td>One day</td>
+                    <td>Shadow</td>
+                    <td>0.0448</td>
+                    <td>0.0139</td>
+                    <td>0.6912</td>
+                  </tr>
+                  <tr>
+                    <td>Seven day</td>
+                    <td>Fixed</td>
+                    <td>0.0836</td>
+                    <td>0.0239</td>
+                    <td>0.5936</td>
+                  </tr>
+                  <tr>
+                    <td>Seven day</td>
+                    <td>Shadow</td>
+                    <td>0.5138</td>
+                    <td>0.2169</td>
+                    <td>0.6834</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-index="9">
+          <div class="slide-grid two-col">
+            <div>
+              <p class="kicker">Conclusion</p>
+              <h2>What the project proves and what it does not</h2>
+              <ul class="bullet-list compact">
+                <li>It provides a reproducible, auditable research pipeline.</li>
+                <li>It distinguishes historical analysis from synthetic benchmark evidence.</li>
+                <li>It documents where the detector succeeds and where it fails.</li>
+                <li>It does not claim verified real-world maritime incident detection.</li>
+              </ul>
+            </div>
+            <div class="panel focus-panel">
+              <h3>Future work</h3>
+              <p>Expert-reviewed labels, broader vessel/time holdouts, contextual route features, and operational alert governance.</p>
+              <div class="quote-box">
+                A good anomaly screen is transparent, measurable, and honest about what it cannot prove.
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="slide-dots" id="slideDots" aria-label="Slide navigation"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

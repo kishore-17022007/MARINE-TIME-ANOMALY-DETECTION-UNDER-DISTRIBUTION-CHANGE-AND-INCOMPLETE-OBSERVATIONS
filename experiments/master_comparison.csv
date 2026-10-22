@@ -1,0 +1,3 @@
+duration,status,verified_dates,sample_rows,train_rows,validation_rows,test_rows,training_seconds,inference_seconds,test_alerts,test_alert_percent,adaptive_status,adaptive_test_alerts,adaptive_test_alert_percent,adaptive_training_seconds,labeled_metrics_status,drift_events,simulation_alerts
+1-day,completed,1,200000,140000,30000,30000,22.978289999999106,2.3230170419992646,261,0.8699999999999999,computed_shadow_update,255,0.8500000000000001,28.398326875001658,No ground-truth anomaly labels; supervised accuracy metrics are not reported.,0,0
+7-day,completed,7,200000,140000,30000,30000,21.18967620899639,2.183780667000974,303,1.01,computed_shadow_update,306,1.02,29.015088000000105,No ground-truth anomaly labels; supervised accuracy metrics are not reported.,0,1

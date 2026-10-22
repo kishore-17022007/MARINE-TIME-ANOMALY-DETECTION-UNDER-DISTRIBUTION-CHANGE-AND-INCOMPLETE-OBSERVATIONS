@@ -1,0 +1,1 @@
+"""Automated research report generation."""

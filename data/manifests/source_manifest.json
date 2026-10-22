@@ -1,0 +1,186 @@
+{
+  "path": "/Users/kishores/Documents/Introduction to data analytics/data/raw/ais-2024-01-01.parquet",
+  "bytes": 227181435,
+  "rows": 7293408,
+  "row_groups": 7,
+  "columns": [
+    {
+      "name": "mmsi",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "base_date_time",
+      "type": "timestamp[ms]",
+      "nullable": true
+    },
+    {
+      "name": "sog",
+      "type": "float",
+      "nullable": true
+    },
+    {
+      "name": "cog",
+      "type": "float",
+      "nullable": true
+    },
+    {
+      "name": "heading",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "vessel_name",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "imo",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "call_sign",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "vessel_type",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "status",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "length",
+      "type": "float",
+      "nullable": true
+    },
+    {
+      "name": "width",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "draft",
+      "type": "float",
+      "nullable": true
+    },
+    {
+      "name": "cargo",
+      "type": "int32",
+      "nullable": true
+    },
+    {
+      "name": "transceiver",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "nullable": true
+    }
+  ],
+  "geo_metadata": {
+    "primary_column": "geometry",
+    "columns": {
+      "geometry": {
+        "encoding": "WKB",
+        "crs": {
+          "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
+          "type": "GeographicCRS",
+          "name": "WGS 84",
+          "datum_ensemble": {
+            "name": "World Geodetic System 1984 ensemble",
+            "members": [
+              {
+                "name": "World Geodetic System 1984 (Transit)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G730)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G873)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G1150)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G1674)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G1762)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G2139)"
+              },
+              {
+                "name": "World Geodetic System 1984 (G2296)"
+              }
+            ],
+            "ellipsoid": {
+              "name": "WGS 84",
+              "semi_major_axis": 6378137,
+              "inverse_flattening": 298.257223563
+            },
+            "accuracy": "2.0",
+            "id": {
+              "authority": "EPSG",
+              "code": 6326
+            }
+          },
+          "coordinate_system": {
+            "subtype": "ellipsoidal",
+            "axis": [
+              {
+                "name": "Geodetic latitude",
+                "abbreviation": "Lat",
+                "direction": "north",
+                "unit": "degree"
+              },
+              {
+                "name": "Geodetic longitude",
+                "abbreviation": "Lon",
+                "direction": "east",
+                "unit": "degree"
+              }
+            ]
+          },
+          "scope": "Horizontal component of 3D system.",
+          "area": "World.",
+          "bbox": {
+            "south_latitude": -90,
+            "west_longitude": -180,
+            "north_latitude": 90,
+            "east_longitude": 180
+          },
+          "id": {
+            "authority": "EPSG",
+            "code": 4326
+          }
+        },
+        "geometry_types": [
+          "Point"
+        ],
+        "bbox": [
+          -160.08352,
+          0.11667,
+          145.93094,
+          50.38428
+        ]
+      }
+    },
+    "version": "1.0.0",
+    "creator": {
+      "library": "geopandas",
+      "version": "1.0.1"
+    }
+  },
+  "source_url": "https://ocmgeodatastor1.blob.core.windows.net/marinecadastre/ais2024/ais-2024-01-01.parquet",
+  "accessed_at_utc": "2026-10-17T14:33:43.834397+00:00",
+  "license": "CC0 1.0 Universal (source documentation)"
+}

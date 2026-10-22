@@ -1,0 +1,1075 @@
+{
+  "duration": "7-day",
+  "experiment_dir": "/Users/kishores/Documents/Introduction to data analytics/experiments/7-day",
+  "config_path": "/Users/kishores/Documents/Introduction to data analytics/experiments/7-day/experiment_config.yaml",
+  "sample_rows": 200000,
+  "coverage": {
+    "2024-01-04": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7081849,
+      "timestamp_min_utc": "2024-01-04T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-04T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-04"
+      ],
+      "requested_date": "2024-01-04"
+    },
+    "2024-01-02": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7292731,
+      "timestamp_min_utc": "2024-01-02T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-02T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-02"
+      ],
+      "requested_date": "2024-01-02"
+    },
+    "2024-01-01": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7293408,
+      "timestamp_min_utc": "2024-01-01T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-01T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-01"
+      ],
+      "requested_date": "2024-01-01"
+    },
+    "2024-01-03": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7287525,
+      "timestamp_min_utc": "2024-01-03T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-03T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-03"
+      ],
+      "requested_date": "2024-01-03"
+    },
+    "2024-01-07": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7240044,
+      "timestamp_min_utc": "2024-01-07T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-07T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-07"
+      ],
+      "requested_date": "2024-01-07"
+    },
+    "2024-01-06": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7284090,
+      "timestamp_min_utc": "2024-01-06T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-06T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-06"
+      ],
+      "requested_date": "2024-01-06"
+    },
+    "2024-01-05": {
+      "status": "verified",
+      "rows_with_valid_timestamp": 7393444,
+      "timestamp_min_utc": "2024-01-05T00:00:00+00:00",
+      "timestamp_max_utc": "2024-01-05T23:59:59+00:00",
+      "actual_utc_dates": [
+        "2024-01-05"
+      ],
+      "requested_date": "2024-01-05"
+    }
+  },
+  "quality": {
+    "input_rows": 50873091,
+    "sampled_rows": 200000,
+    "retained_rows": 200000,
+    "excluded_unusable_rows": 0,
+    "duplicate_rows_flagged": 0,
+    "daily_quality": {
+      "2024-01-01": {
+        "source_rows": 7293408,
+        "sampled_rows": 28572,
+        "quality": {
+          "input_rows": 200000,
+          "retained_rows": 200000,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 472,
+            "cog": 33377,
+            "heading": 105038,
+            "vessel_type": 1027,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 472,
+            "cog": 33377,
+            "heading": 105038,
+            "vessel_type": 1027,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7293408,
+          "sampled_rows": 200000,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7293408,
+          "timestamp_min_utc": "2024-01-01T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-01T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-01"
+          ],
+          "requested_date": "2024-01-01"
+        }
+      },
+      "2024-01-02": {
+        "source_rows": 7292731,
+        "sampled_rows": 28572,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 56,
+            "cog": 4559,
+            "heading": 14602,
+            "vessel_type": 141,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 56,
+            "cog": 4559,
+            "heading": 14602,
+            "vessel_type": 141,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7292731,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7292731,
+          "timestamp_min_utc": "2024-01-02T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-02T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-02"
+          ],
+          "requested_date": "2024-01-02"
+        }
+      },
+      "2024-01-03": {
+        "source_rows": 7287525,
+        "sampled_rows": 28572,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 59,
+            "cog": 4460,
+            "heading": 14509,
+            "vessel_type": 125,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 59,
+            "cog": 4460,
+            "heading": 14509,
+            "vessel_type": 125,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7287525,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7287525,
+          "timestamp_min_utc": "2024-01-03T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-03T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-03"
+          ],
+          "requested_date": "2024-01-03"
+        }
+      },
+      "2024-01-04": {
+        "source_rows": 7081849,
+        "sampled_rows": 28571,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 53,
+            "cog": 4582,
+            "heading": 14629,
+            "vessel_type": 149,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 53,
+            "cog": 4582,
+            "heading": 14629,
+            "vessel_type": 149,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7081849,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7081849,
+          "timestamp_min_utc": "2024-01-04T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-04T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-04"
+          ],
+          "requested_date": "2024-01-04"
+        }
+      },
+      "2024-01-05": {
+        "source_rows": 7393444,
+        "sampled_rows": 28571,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 53,
+            "cog": 4711,
+            "heading": 14615,
+            "vessel_type": 127,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 53,
+            "cog": 4711,
+            "heading": 14615,
+            "vessel_type": 127,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7393444,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7393444,
+          "timestamp_min_utc": "2024-01-05T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-05T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-05"
+          ],
+          "requested_date": "2024-01-05"
+        }
+      },
+      "2024-01-06": {
+        "source_rows": 7284090,
+        "sampled_rows": 28571,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 48,
+            "cog": 4474,
+            "heading": 14362,
+            "vessel_type": 124,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 48,
+            "cog": 4474,
+            "heading": 14362,
+            "vessel_type": 124,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7284090,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7284090,
+          "timestamp_min_utc": "2024-01-06T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-06T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-06"
+          ],
+          "requested_date": "2024-01-06"
+        }
+      },
+      "2024-01-07": {
+        "source_rows": 7240044,
+        "sampled_rows": 28571,
+        "quality": {
+          "input_rows": 28572,
+          "retained_rows": 28572,
+          "excluded_unusable_rows": 0,
+          "duplicate_rows_flagged": 0,
+          "suspicious_speed_rows_flagged": 0,
+          "missing_vessel_id_rows_flagged": 0,
+          "missingness_before": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 59,
+            "cog": 4498,
+            "heading": 14551,
+            "vessel_type": 114,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "missingness_after": {
+            "vessel_id": 0,
+            "timestamp": 0,
+            "sog": 59,
+            "cog": 4498,
+            "heading": 14551,
+            "vessel_type": 114,
+            "geometry": 0,
+            "longitude": 0,
+            "latitude": 0,
+            "audit_invalid_timestamp": 0,
+            "audit_invalid_coordinate": 0,
+            "audit_duplicate": 0,
+            "audit_suspicious_speed": 0,
+            "audit_missing_vessel_id": 0
+          },
+          "source_rows": 7240044,
+          "sampled_rows": 28572,
+          "schema_mapping": {
+            "vessel_id": "mmsi",
+            "timestamp": "base_date_time",
+            "sog": "sog",
+            "cog": "cog",
+            "heading": "heading",
+            "vessel_type": "vessel_type",
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        },
+        "timestamp_coverage": {
+          "status": "verified",
+          "rows_with_valid_timestamp": 7240044,
+          "timestamp_min_utc": "2024-01-07T00:00:00+00:00",
+          "timestamp_max_utc": "2024-01-07T23:59:59+00:00",
+          "actual_utc_dates": [
+            "2024-01-07"
+          ],
+          "requested_date": "2024-01-07"
+        }
+      }
+    }
+  },
+  "status": "completed",
+  "stages": [
+    {
+      "stage": "03_run_eda.py",
+      "status": "completed",
+      "result": {
+        "figure_count": 20,
+        "not_generated": {}
+      }
+    },
+    {
+      "stage": "04_run_descriptive_analytics.py",
+      "status": "completed",
+      "result": {
+        "observations": 200000,
+        "vessels": 16463,
+        "time_start_utc": "2024-01-01T00:00:00+00:00",
+        "time_end_utc": "2024-01-07T23:59:54+00:00",
+        "missing_by_column": {
+          "vessel_id": 0,
+          "timestamp": 0,
+          "sog": 395,
+          "cog": 32038,
+          "heading": 102245,
+          "vessel_type": 929,
+          "longitude": 0,
+          "latitude": 0,
+          "audit_invalid_timestamp": 0,
+          "audit_invalid_coordinate": 0,
+          "audit_duplicate": 0,
+          "audit_suspicious_speed": 0,
+          "audit_missing_vessel_id": 0,
+          "elapsed_hours": 16463,
+          "distance_km": 98517,
+          "derived_speed_knots": 98517,
+          "speed_change": 16884,
+          "acceleration_knots_per_hour": 16884,
+          "course_change_deg": 47358,
+          "turn_rate_deg_per_hour": 47358,
+          "hour_utc": 0,
+          "day_of_week_utc": 0
+        },
+        "numeric_describe": {
+          "sog": {
+            "count": 199605.0,
+            "mean": 1.8700478453567533,
+            "std": 4.103018947466251,
+            "min": 0.0,
+            "25%": 0.0,
+            "50%": 0.0,
+            "75%": 0.4000000059604645,
+            "max": 60.5
+          },
+          "cog": {
+            "count": 167962.0,
+            "mean": 190.91979913305883,
+            "std": 104.83116795625403,
+            "min": 0.0,
+            "25%": 102.9000015258789,
+            "50%": 208.89999389648438,
+            "75%": 276.6000061035156,
+            "max": 359.8999938964844
+          },
+          "heading": {
+            "count": 97755.0,
+            "mean": 183.90695105109714,
+            "std": 107.83250136305566,
+            "min": 0.0,
+            "25%": 88.0,
+            "50%": 186.0,
+            "75%": 278.0,
+            "max": 359.0
+          },
+          "distance_km": {
+            "count": 101483.0,
+            "mean": 6.999026306543044,
+            "std": 20.05584890309055,
+            "min": 0.0,
+            "25%": 0.0022946935911739826,
+            "50%": 0.007024819974565805,
+            "75%": 3.6845692869335043,
+            "max": 1518.32247441777
+          },
+          "elapsed_hours": {
+            "count": 183537.0,
+            "mean": 9.229911244054332,
+            "std": 12.497682507589744,
+            "min": 0.005555555555555556,
+            "25%": 2.1975,
+            "50%": 5.161111111111111,
+            "75%": 11.159722222222221,
+            "max": 165.1663888888889
+          }
+        },
+        "vessel_type_counts": {
+          "31": 39825,
+          "37": 35967,
+          "52": 34113,
+          "30": 14657,
+          "70": 13420,
+          "60": 12758,
+          "36": 12085,
+          "80": 5912,
+          "90": 3560,
+          "57": 3524,
+          "33": 2633,
+          "79": 2053,
+          "50": 1864,
+          "51": 1808,
+          "32": 1657,
+          "71": 1634,
+          "69": 1563,
+          "99": 1452,
+          "89": 1157,
+          "55": 1008,
+          "<missing>": 929,
+          "40": 829,
+          "35": 730,
+          "82": 350,
+          "53": 306,
+          "74": 301,
+          "54": 296,
+          "39": 291,
+          "81": 265,
+          "65": 260
+        },
+        "tables": [
+          "reports/tables/daily_traffic_pattern.csv",
+          "reports/tables/data_completeness.csv",
+          "reports/tables/feature_multicollinearity.csv",
+          "reports/tables/hourly_traffic_pattern.csv",
+          "reports/tables/numeric_summary.csv",
+          "reports/tables/observation_counts_over_time.csv",
+          "reports/tables/speed_by_vessel_type.csv",
+          "reports/tables/vessel_movement_summaries.csv",
+          "reports/tables/vessel_type_counts.csv"
+        ]
+      }
+    },
+    {
+      "stage": "05_run_diagnostic_analytics.py",
+      "status": "computed",
+      "result": {
+        "status": "computed",
+        "test": "Kruskal-Wallis on per-vessel median speed",
+        "groups": 45,
+        "vessel_sample_sizes": [
+          6,
+          7,
+          12,
+          1258,
+          1810,
+          85,
+          145,
+          23,
+          76,
+          1913,
+          4914,
+          18,
+          20,
+          63,
+          99,
+          197,
+          1547,
+          30,
+          34,
+          122,
+          10,
+          151,
+          9,
+          914,
+          13,
+          15,
+          6,
+          123,
+          1143,
+          144,
+          13,
+          14,
+          32,
+          5,
+          172,
+          592,
+          27,
+          34,
+          5,
+          25,
+          109,
+          256,
+          7,
+          6,
+          102
+        ],
+        "statistic": 2006.9815673828125,
+        "p_value": 0.0,
+        "interpretation": "An association between vessel-type groups and median speed; not a causal result.",
+        "assumptions": [
+          "Independent vessel-level medians are the analysis units.",
+          "Kruskal-Wallis compares distributions without a normality assumption.",
+          "Each eligible group must contain at least five vessels."
+        ],
+        "effect_size": {
+          "name": "Kruskal-Wallis epsilon-squared",
+          "value": 0.12071714946084573,
+          "interpretation": "rank-based association magnitude, not causation"
+        },
+        "confidence_interval": {
+          "name": "95% percentile bootstrap interval for epsilon-squared",
+          "lower": 0.1129970213897876,
+          "upper": 0.1329499069860402,
+          "resamples": 300,
+          "seed": 42
+        },
+        "p_value_numeric_limit": "< 2.23e-308",
+        "log_p_value": -Infinity,
+        "epsilon_squared": 0.12071714946084573,
+        "group_medians_knots": [
+          0.0,
+          3.1500000953674316,
+          0.0,
+          0.0,
+          0.0,
+          0.05000000074505806,
+          0.0,
+          0.05000000074505806,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.10000000149011612,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.02500000037252903,
+          0.10000000149011612,
+          0.0,
+          0.10000000149011612,
+          0.05000000074505806,
+          0.05000000074505806,
+          0.0,
+          0.0,
+          0.30000001192092896,
+          0.4000000059604645,
+          8.475000381469727,
+          9.25,
+          7.550000190734863,
+          5.450000286102295,
+          0.0,
+          6.449999809265137,
+          3.549999952316284,
+          8.200000762939453,
+          0.9500000476837158,
+          11.800000190734863,
+          8.800000190734863,
+          7.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "group_sizes": [
+          6,
+          7,
+          12,
+          1258,
+          1810,
+          85,
+          145,
+          23,
+          76,
+          1913,
+          4914,
+          18,
+          20,
+          63,
+          99,
+          197,
+          1547,
+          30,
+          34,
+          122,
+          10,
+          151,
+          9,
+          914,
+          13,
+          15,
+          6,
+          123,
+          1143,
+          144,
+          13,
+          14,
+          32,
+          5,
+          172,
+          592,
+          27,
+          34,
+          5,
+          25,
+          109,
+          256,
+          7,
+          6,
+          102
+        ]
+      }
+    },
+    {
+      "stage": "06_engineer_features.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "rows": 200000,
+        "features": [
+          "elapsed_hours",
+          "distance_km",
+          "derived_speed_knots",
+          "speed_change",
+          "acceleration_knots_per_hour",
+          "course_change_deg",
+          "turn_rate_deg_per_hour",
+          "hour_utc",
+          "day_of_week_utc"
+        ],
+        "missing_by_feature": {
+          "elapsed_hours": 16463,
+          "distance_km": 98517,
+          "derived_speed_knots": 98517,
+          "speed_change": 16884,
+          "acceleration_knots_per_hour": 16884,
+          "course_change_deg": 47358,
+          "turn_rate_deg_per_hour": 47358,
+          "hour_utc": 0,
+          "day_of_week_utc": 0
+        },
+        "multicollinearity_screen": {
+          "status": "computed",
+          "threshold": 0.95,
+          "pairs": [],
+          "interpretation": "Redundancy screen only; correlation does not establish causation."
+        }
+      }
+    },
+    {
+      "stage": "07_train_models.py",
+      "status": "completed",
+      "result": {
+        "model": "Robust-scaled Isolation Forest + novelty Local Outlier Factor",
+        "features": [
+          "sog",
+          "derived_speed_knots",
+          "distance_km",
+          "elapsed_hours",
+          "course_change_deg",
+          "turn_rate_deg_per_hour"
+        ],
+        "train_rows": 140000,
+        "validation_rows": 30000,
+        "test_rows": 30000,
+        "threshold": 180.8637667793228,
+        "test_alerts": 303,
+        "test_alert_percent": 1.01,
+        "validation_alerts": 299,
+        "training_seconds": 21.18967620899639,
+        "inference_seconds": 2.183780667000974,
+        "seed": 42,
+        "model_configuration": {
+          "contamination": 0.01,
+          "alert_quantile": 0.99,
+          "isolation_forest_estimators": 200,
+          "lof_neighbors": 374,
+          "features": [
+            "sog",
+            "derived_speed_knots",
+            "distance_km",
+            "elapsed_hours",
+            "course_change_deg",
+            "turn_rate_deg_per_hour"
+          ]
+        },
+        "drift_events_on_test_score": [],
+        "label_status": "No ground-truth anomaly labels; supervised accuracy metrics are not reported.",
+        "fixed_vs_adaptive": {
+          "status": "computed_shadow_update",
+          "fixed_training_rows": 140000,
+          "adaptive_training_rows": 170000,
+          "validation_used_for_shadow_update": true,
+          "fixed_test_alerts": 303,
+          "fixed_test_alert_percent": 1.01,
+          "adaptive_test_alerts": 306,
+          "adaptive_test_alert_percent": 1.02,
+          "fixed_training_seconds": 21.18967620899639,
+          "adaptive_training_seconds": 29.015088000000105,
+          "fixed_inference_seconds": 2.183780667000974,
+          "adaptive_inference_seconds": 2.564398499998788,
+          "ground_truth_status": "unavailable; alert rates are not performance metrics",
+          "interpretation": "Unsupervised shadow refit comparison only; no superiority or operational adaptation claim."
+        },
+        "status": "completed"
+      }
+    },
+    {
+      "stage": "08_detect_drift.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "method": "median shift against first 100 score observations; not concept-drift proof",
+        "scores": 30000,
+        "events": [],
+        "interpretation": "Distribution-shift screen only; no adaptive update was performed."
+      }
+    },
+    {
+      "stage": "09_run_simulation.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "is_simulated": true,
+        "scenario": "controlled_speed_change",
+        "vessel_id": "367391930",
+        "rows": 53,
+        "injection_start_index": 26,
+        "severity_multiplier": 1.8,
+        "original_alerts": 1,
+        "scenario_alerts": 1,
+        "injected_interval_detection_fraction": 0.0,
+        "warning": "Controlled synthetic intervention on a copy; not a real-world anomaly or operational detector validation."
+      }
+    },
+    {
+      "stage": "10_evaluate_models.py",
+      "status": "completed",
+      "result": {
+        "status": "completed",
+        "real_label_metrics": "not computable: no ground-truth labels",
+        "baseline": {
+          "model": "Robust-scaled Isolation Forest + novelty Local Outlier Factor",
+          "features": [
+            "sog",
+            "derived_speed_knots",
+            "distance_km",
+            "elapsed_hours",
+            "course_change_deg",
+            "turn_rate_deg_per_hour"
+          ],
+          "train_rows": 140000,
+          "validation_rows": 30000,
+          "test_rows": 30000,
+          "threshold": 180.8637667793228,
+          "test_alerts": 303,
+          "test_alert_percent": 1.01,
+          "validation_alerts": 299,
+          "training_seconds": 21.18967620899639,
+          "inference_seconds": 2.183780667000974,
+          "seed": 42,
+          "model_configuration": {
+            "contamination": 0.01,
+            "alert_quantile": 0.99,
+            "isolation_forest_estimators": 200,
+            "lof_neighbors": 374,
+            "features": [
+              "sog",
+              "derived_speed_knots",
+              "distance_km",
+              "elapsed_hours",
+              "course_change_deg",
+              "turn_rate_deg_per_hour"
+            ]
+          },
+          "drift_events_on_test_score": [],
+          "label_status": "No ground-truth anomaly labels; supervised accuracy metrics are not reported.",
+          "fixed_vs_adaptive": {
+            "status": "computed_shadow_update",
+            "fixed_training_rows": 140000,
+            "adaptive_training_rows": 170000,
+            "validation_used_for_shadow_update": true,
+            "fixed_test_alerts": 303,
+            "fixed_test_alert_percent": 1.01,
+            "adaptive_test_alerts": 306,
+            "adaptive_test_alert_percent": 1.02,
+            "fixed_training_seconds": 21.18967620899639,
+            "adaptive_training_seconds": 29.015088000000105,
+            "fixed_inference_seconds": 2.183780667000974,
+            "adaptive_inference_seconds": 2.564398499998788,
+            "ground_truth_status": "unavailable; alert rates are not performance metrics",
+            "interpretation": "Unsupervised shadow refit comparison only; no superiority or operational adaptation claim."
+          }
+        },
+        "simulation": {
+          "status": "completed",
+          "is_simulated": true,
+          "scenario": "controlled_speed_change",
+          "vessel_id": "367391930",
+          "rows": 53,
+          "injection_start_index": 26,
+          "severity_multiplier": 1.8,
+          "original_alerts": 1,
+          "scenario_alerts": 1,
+          "injected_interval_detection_fraction": 0.0,
+          "warning": "Controlled synthetic intervention on a copy; not a real-world anomaly or operational detector validation."
+        },
+        "roc_pr_curves": "not generated without valid labels"
+      }
+    },
+    {
+      "stage": "11_generate_report.py",
+      "status": "completed",
+      "result": {
+        "generated_at_utc": "2026-10-17T16:23:47.043080+00:00",
+        "html_report": "reports/generated/maritime_anomaly_research_report.html",
+        "figure_index": "reports/generated/figure_index.html",
+        "figure_count": 36,
+        "pdf": {
+          "status": "not generated",
+          "reason": "No PDF library configured; HTML report is the supported output."
+        },
+        "report_scope": "real acquired one-day NOAA sample; unexecuted experiments marked incomplete"
+      }
+    }
+  ],
+  "finished_at_utc": "2026-10-17T16:23:47.043276+00:00"
+}
