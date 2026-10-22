@@ -26,15 +26,6 @@ xychart-beta
 	bar [0.87, 1.01]
 ```
 
-### Controlled Simulation Detection
-
-```mermaid
-xychart-beta
-	title "Injected interval detected"
-	x-axis ["1 day", "7 days"]
-	y-axis "Detection (%)" 0 --> 100
-	bar [0, 0]
-```
 
 A controlled speed-change simulation was also run for each window. The detector did not flag the injected interval in either run. Historical AIS has no adjudicated anomaly labels, so alert counts and rates are not accuracy measures; the simulation is limited and does not validate real-world performance.
 
